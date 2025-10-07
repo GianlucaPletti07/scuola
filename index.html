@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script type="module" src="https://unpkg.com/cally"></script>
+    <title>TO DO LIST</title>
+</head>
+<body>
+
+    <!-- Title -->
+    <div class="navbar bg-base-100 shadow-sm bg-base-200">
+      <div class="navbar-center mx-auto">
+        <h1 class="text-7xl font-sans font-semibold">TO DO LIST</h1>
+      </div>
+    </div>
+
+    <!-- Statistiche -->
+     <div class="stats shadow mx-auto">
+        <div class="stat ">
+            <div class="stat-figure text-secondary">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                class="inline-block h-8 w-8 stroke-current"
+            >
+                <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+            </svg>
+            </div>
+            <div class="stat-title">Completate</div>
+            <div class="stat-value">--</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-figure text-secondary">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                class="inline-block h-8 w-8 stroke-current"
+            >
+                <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+                ></path>
+            </svg>
+            </div>
+            <div class="stat-title">Da Completare</div>
+            <div class="stat-value">--</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-figure text-secondary">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                class="inline-block h-8 w-8 stroke-current"
+            >
+                <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                ></path>
+            </svg>
+            </div>
+            <div class="stat-title">Scadute</div>
+            <div class="stat-value">--</div>
+            <div class="stat-desc"></div>
+        </div>
+        </div>
+
+    <!-- Input -->
+     <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 mx-auto">
+        <legend class="fieldset-legend">Nuova task</legend>
+
+        <label class="label">Titolo</label>
+        <input type="text" id="titolo" class="input" placeholder="Titolo" />
+
+        <label class="label">descrizione</label>
+        <textarea class="textarea" id="descrizione" placeholder="descrizione"></textarea>
+
+        <label class="label">Scadenza</label>
+        <button popovertarget="cally-popover1" class="input input-border" id="scadenza" style="anchor-name:--scadenza">Scadenza</button>
+        <div popover id="cally-popover1" class="dropdown bg-base-100 rounded-box shadow-lg" style="position-anchor:--scadenza">
+            <calendar-date class="cally" onchange="document.getElementById('scadenza').innerText = this.value">
+                <svg aria-label="Previous" class="fill-current size-4" slot="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.75 19.5 8.25 12l7.5-7.5"></path></svg>
+                <svg aria-label="Next" class="fill-current size-4" slot="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path></svg>
+                <calendar-month></calendar-month>
+            </calendar-date>
+        </div>
+
+        <label class="label">Priorità</label>
+        <select class="select" id="priorita">
+            <option disabled selected>Priorità</option>
+            <option value="0">Bassa</option>
+            <option value="1">Media</option>
+            <option value="2">Alta</option>
+            <option value="3">Altissima</option>
+        </select>
+
+        <button class="btn" onclick="getInput()">Crea Task</button>
+    </fieldset>
+
+    <!-- Comandi -->
+     <div>
+        <button class="btn" onclick="">Seleziona</button>
+        <button class="btn" onclick="">Completate</button>
+        <button class="btn" onclick="">Elimina</button>
+     </div>
+
+
+    <!-- Lista -->
+     <div class="overflow-x-auto">
+        <table class="table" id="lista">
+            <!-- head -->
+            <thead>
+            <tr>
+                <th></th>
+                <th>Titolo</th>
+                <th>Scadenza</th>
+                <th>Priorità</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- row 1 -->
+            <tr>
+                <th>
+                <label>
+                    <input type="checkbox" class="checkbox hidden" />
+                </label>
+                </th>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                </th>
+            </tr>
+        </table>
+        </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
