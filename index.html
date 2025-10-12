@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="cupcake">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,44 +8,44 @@
     <script type="module" src="https://unpkg.com/cally"></script>
     <title>TO DO LIST</title>
 </head>
-<body>
+<body class="bg-gradient-to-br from-primary to-secondary min-h-screen p-8">
 
     <!-- Title -->
-    <div class="navbar bg-base-100 shadow-sm bg-base-200">
+    <div class="navbar bg-base-100 shadow-xl rounded-3xl mb-8">
       <div class="navbar-center mx-auto">
-        <h1 class="text-7xl font-sans font-semibold">TO DO LIST</h1>
+        <h1 class="text-7xl font-sans font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">TO DO LIST</h1>
       </div>
     </div>
 
     <!-- Statistiche -->
-     <div class="stats shadow mx-auto">
-        <div class="stat ">
-            <div class="stat-figure text-secondary">
+     <div class="stats shadow-2xl mx-auto mb-8 bg-base-100 rounded-2xl">
+        <div class="stat hover:bg-base-200 transition-all duration-300">
+            <div class="stat-figure text-success">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                class="inline-block h-8 w-8 stroke-current"
+                class="inline-block h-10 w-10 stroke-current"
             >
                 <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                 ></path>
             </svg>
             </div>
-            <div class="stat-title">Completate</div>
-            <div class="stat-value">--</div>
+            <div class="stat-title font-semibold">Completate</div>
+            <div class="stat-value text-success" id="nCompletate">0</div>
         </div>
 
-        <div class="stat">
-            <div class="stat-figure text-secondary">
+        <div class="stat hover:bg-base-200 transition-all duration-300">
+            <div class="stat-figure text-info">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                class="inline-block h-8 w-8 stroke-current"
+                class="inline-block h-10 w-10 stroke-current"
             >
                 <path
                 stroke-linecap="round"
@@ -55,98 +55,177 @@
                 ></path>
             </svg>
             </div>
-            <div class="stat-title">Da Completare</div>
-            <div class="stat-value">--</div>
+            <div class="stat-title font-semibold">Da Completare</div>
+            <div class="stat-value text-info" id="nDaCompletare">0</div>
         </div>
 
-        <div class="stat">
-            <div class="stat-figure text-secondary">
+        <div class="stat hover:bg-base-200 transition-all duration-300">
+            <div class="stat-figure text-error">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                class="inline-block h-8 w-8 stroke-current"
+                class="inline-block h-10 w-10 stroke-current"
             >
                 <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 ></path>
             </svg>
             </div>
-            <div class="stat-title">Scadute</div>
-            <div class="stat-value">--</div>
-            <div class="stat-desc"></div>
+            <div class="stat-title font-semibold">Scadute</div>
+            <div class="stat-value text-error" id="nScadute">0</div>
         </div>
         </div>
 
     <!-- Input -->
-     <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 mx-auto">
-        <legend class="fieldset-legend">Nuova task</legend>
+     <fieldset class="fieldset bg-base-100 border-2 border-primary rounded-3xl w-full max-w-2xl p-8 mx-auto mb-8 shadow-2xl">
+        <legend class="fieldset-legend text-2xl font-bold text-primary px-4">✨ Nuova task</legend>
 
-        <label class="label">Titolo</label>
-        <input type="text" id="titolo" class="input" placeholder="Titolo" />
+        <label class="label">
+            <span class="label-text font-semibold text-base">Titolo</span>
+        </label>
+        <input type="text" id="titolo" class="input input-bordered input-primary w-full rounded-xl" placeholder="Inserisci il titolo..." />
 
-        <label class="label">descrizione</label>
-        <textarea class="textarea" id="descrizione" placeholder="descrizione"></textarea>
+        <label class="label mt-4">
+            <span class="label-text font-semibold text-base">Descrizione</span>
+        </label>
+        <textarea class="textarea textarea-bordered textarea-primary w-full rounded-xl" id="descrizione" placeholder="Descrizione dettagliata..." rows="3"></textarea>
 
-        <label class="label">Scadenza</label>
-        <button popovertarget="cally-popover1" class="input input-border" id="scadenza" style="anchor-name:--scadenza">Scadenza</button>
-        <div popover id="cally-popover1" class="dropdown bg-base-100 rounded-box shadow-lg" style="position-anchor:--scadenza">
-            <calendar-date class="cally" onchange="document.getElementById('scadenza').innerText = this.value">
+        <label class="label mt-4">
+            <span class="label-text font-semibold text-base">Scadenza</span>
+        </label>
+        <button popovertarget="cally-popover1" class="btn btn-outline btn-primary w-full rounded-xl" id="scadenza" style="anchor-name:--scadenza">📅 Seleziona scadenza</button>
+        <div popover id="cally-popover1" class="dropdown bg-base-100 rounded-box shadow-2xl p-4" style="position-anchor:--scadenza">
+            <calendar-date id="calendario" class="cally" onchange="document.getElementById('scadenza').innerText = '📅 ' + this.value">
                 <svg aria-label="Previous" class="fill-current size-4" slot="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.75 19.5 8.25 12l7.5-7.5"></path></svg>
                 <svg aria-label="Next" class="fill-current size-4" slot="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path></svg>
                 <calendar-month></calendar-month>
             </calendar-date>
         </div>
 
-        <label class="label">Priorità</label>
-        <select class="select" id="priorita">
-            <option disabled selected>Priorità</option>
-            <option value="0">Bassa</option>
-            <option value="1">Media</option>
-            <option value="2">Alta</option>
-            <option value="3">Altissima</option>
+        <label class="label mt-4">
+            <span class="label-text font-semibold text-base">Priorità</span>
+        </label>
+        <select class="select select-bordered select-primary w-full rounded-xl" id="priorita">
+            <option disabled selected>Seleziona priorità</option>
+            <option value="0">🟢 Bassa</option>
+            <option value="1">🟡 Media</option>
+            <option value="2">🟠 Alta</option>
+            <option value="3">🔴 Urgente</option>
         </select>
 
-        <button class="btn" onclick="getInput()">Crea Task</button>
+        <button class="btn btn-primary w-full mt-6 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all" onclick="getInput()" id="btnCreaTask">
+            ➕ Crea Task
+        </button>
     </fieldset>
 
     <!-- Comandi -->
-     <div>
-        <button class="btn" onclick="">Seleziona</button>
-        <button class="btn" onclick="">Completate</button>
-        <button class="btn" onclick="">Elimina</button>
+     <div class="flex flex-wrap gap-4 justify-center mb-8 max-w-6xl mx-auto">
+        <button class="btn btn-accent rounded-xl shadow-lg" onclick="rendiSelezionabili()" id="btnSelezione">
+            ✅ Seleziona
+        </button>
+        <button class="btn btn-success rounded-xl shadow-lg" onclick="segnaComeCompletate()" id="btnCompletate" disabled>
+            ✔️ Completate
+        </button>
+        <button class="btn btn-error rounded-xl shadow-lg" onclick="elimina()" id="btnElimina" disabled>
+            🗑️ Elimina
+        </button>
+        <button class="btn btn-info rounded-xl shadow-lg" onclick="selezionaTutto()" id="btnSelezionaTutto" disabled>
+            📋 Seleziona Tutto
+        </button>
+        <select id="ordinamento" class="select select-bordered select-primary rounded-xl shadow-lg max-w-xs" onchange="cambiaCriterioOrdinamento()">
+            <option value="priorita">🎯 Priorità (default)</option>
+            <option value="scadenza">📅 Data di scadenza</option>
+            <option value="titolo">🔤 Titolo (A-Z)</option>
+            <option value="inserimento">🕐 Data di inserimento</option>
+        </select>
      </div>
 
 
     <!-- Lista -->
-     <div class="overflow-x-auto">
-        <table class="table" id="lista">
+     <div class="overflow-x-auto max-w-6xl mx-auto">
+        <table class="table bg-base-100 shadow-2xl rounded-2xl">
             <!-- head -->
-            <thead>
+            <thead class="bg-primary text-primary-content">
             <tr>
-                <th></th>
-                <th>Titolo</th>
-                <th>Scadenza</th>
-                <th>Priorità</th>
+                <th class="rounded-tl-2xl"></th>
+                <th class="text-lg">📝 Titolo</th>
+                <th class="text-lg">📅 Scadenza</th>
+                <th class="text-lg rounded-tr-2xl">⚡ Priorità</th>
             </tr>
             </thead>
-            <tbody>
-            <!-- row 1 -->
-            <tr>
-                <th>
-                <label>
-                    <input type="checkbox" class="checkbox hidden" />
-                </label>
-                </th>
-                <td>--</td>
-                <td>--</td>
-                <td>--</td>
-                </th>
-            </tr>
+            <tbody id="lista">
+           
         </table>
+        </div>
+
+        <!-- Modal descrizione -->
+        <input type="checkbox" id="modalDescToggle" class="modal-toggle" />
+        <div class="modal">
+            <div class="modal-box relative rounded-3xl shadow-2xl max-w-2xl">
+            <label for="modalDescToggle" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+            <h3 class="font-bold text-2xl mb-4 text-primary" id="modalDescTitle"></h3>
+            <div class="divider"></div>
+            <p id="modalDesc" class="py-4 text-lg"></p>
+            </div>
+        </div>
+
+        <!-- Modal modifica data -->
+        <input type="checkbox" id="modalScadToggle" class="modal-toggle" />
+
+        <div class="modal">
+        <div class="modal-box relative rounded-3xl shadow-2xl">
+            <!-- Bottone chiusura -->
+            <label for="modalScadToggle" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+
+            <h3 class="font-bold text-2xl mb-4 text-primary" id="modalScadTitle"></h3>
+            <div class="divider"></div>
+
+            <label class="label">
+                <span class="label-text font-semibold text-base">Nuova Scadenza</span>
+            </label>
+            <button popovertarget="cally-popover2" class="btn btn-outline btn-primary w-full rounded-xl" id="scadenzaInModal" style="anchor-name:--scadenzaInModal">📅 Seleziona data</button>
+            <div popover id="cally-popover2" class="dropdown bg-base-100 rounded-box shadow-2xl p-4" style="position-anchor:--scadenzaInModal">
+                <calendar-date id="calendarioInModal" class="cally" onchange="document.getElementById('scadenzaInModal').innerText = '📅 ' + this.value">
+                    <svg aria-label="Previous" class="fill-current size-4" slot="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.75 19.5 8.25 12l7.5-7.5"></path></svg>
+                    <svg aria-label="Next" class="fill-current size-4" slot="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path></svg>
+                    <calendar-month></calendar-month>
+                </calendar-date>
+            </div>
+            <div class="modal-action">
+                <button for="modalScadToggle" id="salvaScadenzaBtn" class="btn btn-primary rounded-xl" onclick="modificaScadenza()">💾 Salva</button>
+            </div>
+        </div>
+        </div>
+
+        <!-- Modal modifica priorita -->
+        <input type="checkbox" id="modalPriorToggle" class="modal-toggle" />
+
+        <div class="modal">
+        <div class="modal-box relative rounded-3xl shadow-2xl">
+            <!-- Bottone chiusura -->
+            <label for="modalPriorToggle" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+
+            <h3 class="font-bold text-2xl mb-4 text-primary" id="modalPriorTitle"></h3>
+            <div class="divider"></div>
+
+            <label class="label">
+                <span class="label-text font-semibold text-base">Nuova Priorità</span>
+            </label>
+            <select class="select select-bordered select-primary w-full rounded-xl" id="prioritaInModal">
+                <option disabled selected>Seleziona priorità</option>
+                <option value="0">🟢 Bassa</option>
+                <option value="1">🟡 Media</option>
+                <option value="2">🟠 Alta</option>
+                <option value="3">🔴 Urgente</option>
+            </select>
+            <div class="modal-action">
+                <button for="modalPriorToggle" id="salvaPrioritaBtn" class="btn btn-primary rounded-xl" onclick="modificaPriorita()">💾 Salva</button>
+            </div>
+        </div>
         </div>
 
     <script src="script.js"></script>
