@@ -58,7 +58,7 @@ class ToDoList {
 
 }
 const toDoList = new ToDoList()
-const livelliPriorita = ["Bassa", "Media", "Alta", "Urgente"]
+const livelliPriorita = ["<div class='badge badge-soft badge-accent'>Bassa</div>", "<div class='badge badge-soft badge-warning'>Media</div>", "<div class='badge badge-soft badge-error'>Alta</div>", "<div class='badge badge-soft badge-primary'>Urgente</div>"]
 let counterDaCompletare = null
 let counterCompletate = null
 let counterScadute = null
@@ -77,6 +77,7 @@ let inputPriorita = null
 let completate = 0
 let scadute = 0
 let selectCriterioOrdinamento = null
+let barraRicerca = null
 
 document.addEventListener("DOMContentLoaded", init)
 
@@ -96,6 +97,7 @@ function init(){
   inputCalendario = document.getElementById('calendario')
   inputPriorita = document.getElementById('priorita')
   selectCriterioOrdinamento = document.getElementById('ordinamento')
+  barraRicerca = document.getElementById("ricerca")
   if(localStorage.length > 0)
     uploadFromLocalStorage()
 }
@@ -107,7 +109,8 @@ function getInput(){
         scadenza: document.getElementById('scadenza').innerText,
         dataInserimento: new Date(),
         priorita: document.getElementById('priorita').value,
-        scaduta: false
+        scaduta: false,
+        completata: false
     };
 
     if (!task.titolo) {
@@ -142,10 +145,11 @@ function getInput(){
     inputPriorita.selectedIndex = 0
 }
 
-function aggiornaLista(){
+function aggiornaLista(tasks){
     lista.innerHTML = ""
-    const tasks = toDoList.getTasks()
-    saveTasks(tasks)
+    if(!tasks)
+      tasks = toDoList.getTasks()
+    saveTasks(toDoList.getTasks())
     counterDaCompletare.innerText = tasks.length
     counterCompletate.innerText = completate
     saveCounterCompletate(completate)
@@ -173,17 +177,29 @@ function aggiornaLista(){
             <span class="text-blue-500 cursor-pointer btn-editPriorita" data-index="${i}">✏️</span>  
             <span>${livelliPriorita[task.priorita]}</span>
           </td>
+          <td>
+            <span>
+              <button class="btn btn-square" data-index="${i}" onclick="eliminaTask(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-[1.2em]"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>
+              </button>
+            </span>
+            <span>
+              <button class="btn btn-circle" data-index="${i}" onclick="completaTask(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-[1.2em]"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>
+              </button>
+            </span>
+          </td>
         `;
 
         lista.appendChild(tr);
       }
-      else{
+      else if(task.completata){
         tr.innerHTML = `
           <th>
             <input type="checkbox" class="checkbox hidden row-cb" data-index="${i}" />
           </th>
           <td class="flex items-center space-x-2 ">
-            <span class="text-blue-500 cursor-pointer btn-descrizione" data-index="${i}">❓</span>
+            <span class="text-green-500 cursor-pointer btn-descrizione" data-index="${i}" onclick="">❓</span>
             <span>${task.titolo}</span>
           </td>
           <td>
@@ -194,13 +210,61 @@ function aggiornaLista(){
             <span class="text-blue-500 cursor-pointer btn-editPriorita" data-index="${i}">✏️</span>  
             <span>${livelliPriorita[task.priorita]}</span>
           </td>
+          <td>
+          </td>
+          <td>
+            <span>
+              <button class="btn btn-square" data-index="${i}" onclick="eliminaTask(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-[1.2em]"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>
+              </button>
+            </span>
+            <span>
+              <button class="btn btn-circle" data-index="${i}" onclick="completaTask(this)" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-[1.2em]"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>
+              </button>
+            </span>
+          </td>
         `;
 
         lista.appendChild(tr);
       }
+      else{
+        tr.innerHTML = `
+          <th>
+            <input type="checkbox" class="checkbox hidden row-cb" data-index="${i}" />
+          </th>
+          <td class="flex items-center space-x-2 ">
+            <span class="text-blue-500 cursor-pointer btn-descrizione" data-index="${i}" onclick="">❓</span>
+            <span>${task.titolo}</span>
+          </td>
+          <td>
+            <span class="text-blue-500 cursor-pointer btn-editScadenza" data-index="${i}">✏️</span>  
+            <span>${task.scadenza}</span>
+          </td>
+          <td>
+            <span class="text-blue-500 cursor-pointer btn-editPriorita" data-index="${i}">✏️</span>  
+            <span>${livelliPriorita[task.priorita]}</span>
+          </td>
+          <td>
+          </td>
+          <td>
+            <span>
+              <button class="btn btn-square" data-index="${i}" onclick="eliminaTask(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-[1.2em]"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>
+              </button>
+            </span>
+            <span>
+              <button class="btn btn-circle" data-index="${i}" onclick="completaTask(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-[1.2em]"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>
+              </button>
+            </span>
+          </td>
+        `;
+      }
     });
 
     lista.addEventListener("click", (e) => {
+      //mostra descrizione
       if(e.target.classList.contains("btn-descrizione")){
         const index = e.target.dataset.index;
         const task = toDoList.getTasks()[index];
@@ -208,7 +272,7 @@ function aggiornaLista(){
         document.getElementById("modalDesc").textContent = task.descrizione;
         document.getElementById("modalDescToggle").checked = true;
       }
-
+      //modifica scadenza
       if(e.target.classList.contains("btn-editScadenza")){
         const index = e.target.dataset.index
         const task = toDoList.getTasks()[index]
@@ -216,7 +280,7 @@ function aggiornaLista(){
         document.getElementById("modalScadToggle").checked = true
         document.getElementById("salvaScadenzaBtn").dataset.index = index
       }
-
+      //modifica priorita
       if(e.target.classList.contains("btn-editPriorita")){
         const index = e.target.dataset.index
         const task = toDoList.getTasks()[index]
@@ -278,6 +342,7 @@ function selezionaTutto(){
 
 function elimina(){
   const selected = getSelectedTasks()
+  if(confirm("Sei sicuro di voler eliminare le tasks selezionate?"))
   rimuovi(selected)
 }
 
@@ -314,7 +379,7 @@ function updateTaskScadute() {
   aggiornaLista()
 }
 
-function saveTasks(tasks) {
+function  saveTasks(tasks) {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
@@ -389,4 +454,24 @@ function modificaPriorita(){
   toDoList.ordinaTasks()
   document.getElementById("modalPriorToggle").checked = false;
   aggiornaLista()
+}
+
+function filtraTasks(){
+  const tasks = toDoList.getTasks()
+  let testo = barraRicerca.value.toLowerCase()
+  testo = testo.trim()
+  let filtrate = tasks.filter(t => t.titolo.toLowerCase().includes(testo))
+  aggiornaLista(filtrate)
+}
+
+function eliminaTask(bottone){
+  if(confirm("Sei sicuro di voler eliminare questa task?")){
+    const index= bottone.getAttribute("data-index")
+    toDoList.removeTask(toDoList.getTasks()[index])
+    aggiornaLista()
+  }
+}
+
+function completaTask(bottone){
+
 }

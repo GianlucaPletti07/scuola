@@ -13,7 +13,7 @@
     <!-- Title -->
     <div class="navbar bg-base-100 shadow-xl rounded-3xl mb-8">
       <div class="navbar-center mx-auto">
-        <h1 class="text-7xl font-sans font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">TO DO LIST</h1>
+        <h1 class="text-7xl font-sans font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-blue-500">TO DO LIST</h1>
       </div>
     </div>
 
@@ -143,6 +143,10 @@
             <option value="inserimento">🕐 Data di inserimento</option>
         </select>
      </div>
+        <input type="text" id="ricerca" class="input input-bordered input-primary w-full rounded-xl" placeholder="Ricerca" oninput="filtraTasks()"/>
+     <div>
+
+     </div>
 
 
     <!-- Lista -->
@@ -175,7 +179,6 @@
 
         <!-- Modal modifica data -->
         <input type="checkbox" id="modalScadToggle" class="modal-toggle" />
-
         <div class="modal">
         <div class="modal-box relative rounded-3xl shadow-2xl">
             <!-- Bottone chiusura -->
