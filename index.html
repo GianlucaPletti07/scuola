@@ -1,306 +1,501 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="autumn">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script type="module" src="https://unpkg.com/cally"></script>
     <title>TO DO LIST</title>
-</head>
+  </head>
 
-<body class="bg-base-200 min-h-screen">
+  <body class="bg-base-200 min-h-screen">
     <div class="drawer lg:drawer-open">
-        <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-        <div class="drawer-content">
-            <!-- Main Content -->
-            <div class="p-8 max-w-7xl mx-auto">
-                <div id="alertContainer" class="fixed top-5 left-1/2 -translate-x-1/2 z-50"></div>
-                <!-- Mobile Menu Button -->
-                <label for="my-drawer" class="btn btn-primary drawer-button lg:hidden mb-4">
-                    Apri Filtri
-                </label>
+      <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content">
+        <!-- Main Content -->
+        <div class="p-8 max-w-7xl mx-auto">
+          <div
+            id="alertContainer"
+            class="fixed top-5 left-1/2 -translate-x-1/2 z-50"
+          ></div>
+          <!-- Mobile Menu Button -->
+          <label
+            for="my-drawer"
+            class="btn btn-primary drawer-button lg:hidden mb-4"
+          >
+            Apri Filtri
+          </label>
 
-                <!-- Header -->
-                <div class="mb-8">
-                    <h1 class="text-6xl font-bold text-primary mb-2">TO DO LIST</h1>
-                    <p class="text-base-content/60">Gestisci le tue attività in modo efficiente</p>
-                </div>
+          <!-- Header -->
+          <div class="mb-8">
+            <h1 class="text-6xl font-bold text-primary mb-2">TO DO LIST</h1>
+            <p id="sottotitolo" class="text-base-content/60">Le tue tasks</p>
+          </div>
 
-                <!-- Statistics -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="card bg-base-100 shadow-xl">
-                        <div class="card-body">
-                            <h2 class="card-title text-success text-sm">Completate</h2>
-                            <p class="text-4xl font-bold text-success" id="nCompletate">0</p>
-                        </div>
-                    </div>
-                    <div class="card bg-base-100 shadow-xl">
-                        <div class="card-body">
-                            <h2 class="card-title text-info text-sm">Da Completare</h2>
-                            <p class="text-4xl font-bold text-info" id="nDaCompletare">0</p>
-                        </div>
-                    </div>
-                    <div class="card bg-base-100 shadow-xl">
-                        <div class="card-body">
-                            <h2 class="card-title text-error text-sm">Scadute</h2>
-                            <p class="text-4xl font-bold text-error" id="nScadute">0</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Input Form -->
-                <div class="card bg-base-100 shadow-xl mb-8">
-                    <div class="card-body">
-                        <h2 class="card-title text-2xl mb-4">Nuova Attività</h2>
-                        
-                        <div class="form-control mb-4">
-                            <label class="label">
-                                <span class="label-text font-semibold">Titolo</span>
-                            </label>
-                            <input type="text" id="titolo" class="input input-bordered input-primary w-full"
-                                placeholder="Inserisci il titolo..." />
-                        </div>
-
-                        <div class="form-control mb-4">
-                            <label class="label">
-                                <span class="label-text font-semibold">Descrizione</span>
-                            </label>
-                            <textarea class="textarea textarea-bordered textarea-primary w-full" id="descrizione"
-                                placeholder="Descrizione dettagliata..." rows="3"></textarea>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text font-semibold">Scadenza</span>
-                                </label>
-                                <button popovertarget="cally-popover1" class="btn btn-outline btn-primary w-full" 
-                                        id="scadenza" style="anchor-name:--scadenza">Seleziona scadenza</button>
-                                <div popover id="cally-popover1" class="dropdown bg-base-100 rounded-box shadow-2xl p-4"
-                                    style="position-anchor:--scadenza">
-                                    <calendar-date id="calendario" class="cally"
-                                        onchange="document.getElementById('scadenza').innerText = this.value">
-                                        <svg aria-label="Previous" class="fill-current size-4" slot="previous"
-                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                            <path d="M15.75 19.5 8.25 12l7.5-7.5"></path>
-                                        </svg>
-                                        <svg aria-label="Next" class="fill-current size-4" slot="next" 
-                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                            <path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
-                                        </svg>
-                                        <calendar-month></calendar-month>
-                                    </calendar-date>
-                                </div>
-                            </div>
-
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text font-semibold">Priorità</span>
-                                </label>
-                                <select class="select select-bordered select-primary w-full" id="priorita">
-                                    <option disabled selected>Seleziona priorità</option>
-                                    <option value="0">Bassa</option>
-                                    <option value="1">Media</option>
-                                    <option value="2">Alta</option>
-                                    <option value="3">Urgente</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button class="btn btn-primary w-full text-lg" onclick="getInput()" id="btnCreaTask">
-                            Crea Attività
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="flex flex-wrap gap-4 mb-8 justify-center">
-                    <button class="btn btn-accent" onclick="rendiSelezionabili()" id="btnSelezione">
-                        Seleziona
-                    </button>
-                    <button class="btn btn-success" onclick="segnaComeCompletate()" id="btnCompletate" disabled>
-                        Segna Completate
-                    </button>
-                    <button class="btn btn-error" onclick="elimina()" id="btnElimina" disabled>
-                        Elimina
-                    </button>
-                    <button class="btn btn-info" onclick="selezionaTutto()" id="btnSelezionaTutto" disabled>
-                        Seleziona Tutto
-                    </button>
-                </div>
-
-                <!-- Task List -->
-                <div class="card bg-base-100 shadow-xl">
-                    <div class="card-body p-0">
-                        <div class="overflow-x-auto">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Titolo</th>
-                                        <th>Scadenza</th>
-                                        <th>Priorità</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="lista">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+          <!-- Statistics -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="card bg-base-100 shadow-xl">
+              <div class="card-body">
+                <h2 class="card-title text-success text-sm">Completate</h2>
+                <p class="text-4xl font-bold text-success" id="nCompletate">
+                  0
+                </p>
+              </div>
             </div>
-        </div>
+            <div class="card bg-base-100 shadow-xl">
+              <div class="card-body">
+                <h2 class="card-title text-info text-sm">Da Completare</h2>
+                <p class="text-4xl font-bold text-info" id="nDaCompletare">0</p>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-xl">
+              <div class="card-body">
+                <h2 class="card-title text-error text-sm">Scadute</h2>
+                <p class="text-4xl font-bold text-error" id="nScadute">0</p>
+              </div>
+            </div>
+          </div>
 
-        <!-- Sidebar -->
-        <div class="drawer-side z-40">
-            <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-            <aside class="bg-base-100 min-h-full w-80 p-6">
-                <div class="mb-8">
-                    <h2 class="text-2xl font-bold text-primary mb-6">Filtri e Ricerca</h2>
-                    
-                    <!-- Search Bar -->
-                    <div class="form-control mb-6">
-                        <label class="label">
-                            <span class="label-text font-semibold">Ricerca</span>
-                        </label>
-                        <input type="text" id="ricerca" class="input input-bordered w-full" 
-                               placeholder="Cerca attività..." oninput="filtraTasks()" />
-                    </div>
+          <!-- Input Form -->
+          <dialog id="modalNuovaAttivita" class="modal">
+            <div class="modal-box w-11/12 max-w-2xl">
+              <form method="dialog">
+                <button
+                  class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                >
+                  ✕
+                </button>
+              </form>
 
-                    <!-- Filter Buttons -->
-                    <div class="form-control mb-6">
-                        <label class="label">
-                            <span class="label-text font-semibold">Filtro per Stato</span>
-                        </label>
-                        <div class="flex flex-col gap-3">
-                            <button class="btn btn-ghost justify-start hover:bg-primary hover:text-primary-content" 
-                                    onclick="aggiornaLista()">
-                                Tutte le Attività
-                            </button>
-                            <button class="btn btn-ghost justify-start hover:bg-info hover:text-info-content" 
-                                    onclick="mostraDaCompletare()">
-                                Da Completare
-                            </button>
-                            <button class="btn btn-ghost justify-start hover:bg-success hover:text-success-content" 
-                                    onclick="mostraCompletate()">
-                                Completate
-                            </button>
-                            <button class="btn btn-ghost justify-start hover:bg-error hover:text-error-content" 
-                                    onclick="mostraScadute()">
-                                Scadute
-                            </button>
-                        </div>
-                    </div>
+              <h2 class="card-title text-2xl mb-4 text-primary">
+                Nuova Attività
+              </h2>
 
-                    <!-- Sort Options -->
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text font-semibold">Ordina per</span>
-                        </label>
-                        <select id="ordinamento" class="select select-bordered w-full" 
-                                onchange="cambiaCriterioOrdinamento()">
-                            <option value="priorita">Priorità (default)</option>
-                            <option value="scadenza">Data di Scadenza</option>
-                            <option value="titolo">Titolo (A-Z)</option>
-                            <option value="inserimento">Data di Inserimento</option>
-                        </select>
-                    </div>
-                </div>
-            </aside>
-        </div>
-    </div>
-
-    <!-- Modal Description -->
-    <dialog id="modalDesc" class="modal">
-        <div class="modal-box">
-            <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-            </form>
-            <h3 class="font-bold text-2xl mb-4 text-primary" id="modalDescTitle"></h3>
-            <div class="divider"></div>
-            <p id="modalDescContent" class="py-4 text-lg"></p>
-        </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>chiudi</button>
-        </form>
-    </dialog>
-
-    <!-- Modal Edit Due Date -->
-    <dialog id="modalScad" class="modal">
-        <div class="modal-box">
-            <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-            </form>
-            <h3 class="font-bold text-2xl mb-4 text-primary" id="modalScadTitle"></h3>
-            <div class="divider"></div>
-            
-            <div class="form-control">
+              <div class="form-control mb-4">
                 <label class="label">
-                    <span class="label-text font-semibold">Nuova Scadenza</span>
+                  <span class="label-text font-semibold">Titolo</span>
                 </label>
-                <button popovertarget="cally-popover2" class="btn btn-outline btn-primary w-full"
-                    id="scadenzaInModal" style="anchor-name:--scadenzaInModal">Seleziona data</button>
-                <div popover id="cally-popover2" class="dropdown bg-base-100 rounded-box shadow-2xl p-4"
-                    style="position-anchor:--scadenzaInModal">
-                    <calendar-date id="calendarioInModal" class="cally"
-                        onchange="document.getElementById('scadenzaInModal').innerText = this.value">
-                        <svg aria-label="Previous" class="fill-current size-4" slot="previous"
-                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M15.75 19.5 8.25 12l7.5-7.5"></path>
-                        </svg>
-                        <svg aria-label="Next" class="fill-current size-4" slot="next" 
-                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
-                        </svg>
-                        <calendar-month></calendar-month>
+                <input
+                  type="text"
+                  id="titolo"
+                  class="input input-bordered input-primary w-full"
+                  placeholder="Inserisci il titolo..."
+                />
+              </div>
+
+              <div class="form-control mb-4">
+                <label class="label">
+                  <span class="label-text font-semibold">Descrizione</span>
+                </label>
+                <textarea
+                  class="textarea textarea-bordered textarea-primary w-full"
+                  id="descrizione"
+                  placeholder="Descrizione dettagliata..."
+                  rows="3"
+                ></textarea>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text font-semibold">Scadenza</span>
+                  </label>
+                  <button
+                    popovertarget="cally-popover1"
+                    class="btn btn-outline btn-primary w-full"
+                    id="scadenza"
+                    style="anchor-name: --scadenza"
+                  >
+                    Seleziona scadenza
+                  </button>
+                  <div
+                    popover
+                    id="cally-popover1"
+                    class="dropdown bg-base-100 rounded-box shadow-2xl p-4"
+                    style="position-anchor: --scadenza"
+                  >
+                    <calendar-date
+                      id="calendario"
+                      class="cally"
+                      onchange="document.getElementById('scadenza').innerText = this.value"
+                    >
+                      <svg
+                        aria-label="Previous"
+                        class="fill-current size-4"
+                        slot="previous"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+                      </svg>
+                      <svg
+                        aria-label="Next"
+                        class="fill-current size-4"
+                        slot="next"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+                      </svg>
+                      <calendar-month></calendar-month>
                     </calendar-date>
+                  </div>
                 </div>
-            </div>
-            
-            <div class="modal-action">
-                <button id="salvaScadenzaBtn" class="btn btn-primary" onclick="modificaScadenza()">Salva</button>
-            </div>
-        </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>chiudi</button>
-        </form>
-    </dialog>
 
-    <!-- Modal Edit Priority -->
-    <dialog id="modalPrior" class="modal">
-        <div class="modal-box">
-            <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-            </form>
-            <h3 class="font-bold text-2xl mb-4 text-primary" id="modalPriorTitle"></h3>
-            <div class="divider"></div>
-            
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text font-semibold">Nuova Priorità</span>
-                </label>
-                <select class="select select-bordered select-primary w-full" id="prioritaInModal">
+                <div class="form-control">
+                  <label class="label">
+                    <span class="label-text font-semibold">Priorità</span>
+                  </label>
+                  <select
+                    class="select select-bordered select-primary w-full"
+                    id="priorita"
+                  >
                     <option disabled selected>Seleziona priorità</option>
                     <option value="0">Bassa</option>
                     <option value="1">Media</option>
                     <option value="2">Alta</option>
                     <option value="3">Urgente</option>
-                </select>
+                  </select>
+                </div>
+              </div>
+
+              <div class="modal-action">
+                <button
+                  class="btn btn-primary w-full text-lg"
+                  onclick="getInput(); document.getElementById('modalNuovaAttivita').close();"
+                >
+                  Crea Attività
+                </button>
+              </div>
             </div>
-            
-            <div class="modal-action">
-                <button id="salvaPrioritaBtn" class="btn btn-primary" onclick="modificaPriorita()">Salva</button>
+
+            <!-- Sfondo cliccabile per chiudere -->
+            <form method="dialog" class="modal-backdrop">
+              <button>Chiudi</button>
+            </form>
+          </dialog>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap gap-4 mb-8 justify-center">
+            <button
+              id="nuovaTask"
+              class="btn btn-primary btn-circle"
+              onclick="document.getElementById('modalNuovaAttivita').showModal()"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+            </button>
+
+            <button
+              class="btn btn-accent"
+              onclick="rendiSelezionabili()"
+              id="btnSelezione"
+            >
+              Seleziona
+            </button>
+            <button
+              class="btn btn-success"
+              onclick="segnaComeCompletate()"
+              id="btnCompletate"
+              disabled
+            >
+              Segna Completate
+            </button>
+            <button
+              class="btn btn-error"
+              onclick="elimina()"
+              id="btnElimina"
+              disabled
+            >
+              Elimina
+            </button>
+            <button
+              class="btn btn-info"
+              onclick="selezionaTutto()"
+              id="btnSelezionaTutto"
+              disabled
+            >
+              Seleziona Tutto
+            </button>
+          </div>
+
+          <!-- Task List -->
+          <div class="card bg-base-100 shadow-xl">
+            <div class="card-body p-0">
+              <div class="overflow-x-auto">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Titolo</th>
+                      <th>Scadenza</th>
+                      <th>Priorità</th>
+                    </tr>
+                  </thead>
+                  <tbody id="lista"></tbody>
+                </table>
+              </div>
+              <!-- Empty State -->
+              <div id="emptyState" class="text-center py-16 px-4 hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-24 h-24 mx-auto text-base-300 mb-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+                </svg>
+                <h3 class="text-2xl font-bold text-base-content/60 mb-2">Nessuna attività presente</h3>
+              </div>
             </div>
+          </div>
         </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>chiudi</button>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="drawer-side z-40">
+        <label
+          for="my-drawer"
+          aria-label="close sidebar"
+          class="drawer-overlay"
+        ></label>
+        <aside class="bg-base-100 min-h-full w-80 p-6">
+          <div class="mb-8">
+            <h2 class="text-2xl font-bold text-primary mb-6">
+              Filtri e Ricerca
+            </h2>
+
+            <!-- Search Bar -->
+            <div class="form-control mb-6">
+              <label class="label">
+                <span class="label-text font-semibold">Ricerca</span>
+              </label>
+              <input
+                type="text"
+                id="ricerca"
+                class="input input-bordered w-full"
+                placeholder="Cerca attività..."
+                oninput="filtraTasks()"
+              />
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="form-control mb-6">
+              <label class="label">
+                <span class="label-text font-semibold">Filtro per Stato</span>
+              </label>
+              <div class="flex flex-col gap-3">
+                <button
+                  class="btn btn-ghost justify-start hover:bg-primary hover:text-primary-content"
+                  onclick="mostraTutte()"
+                >
+                  Tutte le Attività
+                </button>
+                <button
+                  class="btn btn-ghost justify-start hover:bg-info hover:text-info-content"
+                  onclick="mostraDaCompletare()"
+                >
+                  Da Completare
+                </button>
+                <button
+                  class="btn btn-ghost justify-start hover:bg-success hover:text-success-content"
+                  onclick="mostraCompletate()"
+                >
+                  Completate
+                </button>
+                <button
+                  class="btn btn-ghost justify-start hover:bg-error hover:text-error-content"
+                  onclick="mostraScadute()"
+                >
+                  Scadute
+                </button>
+              </div>
+            </div>
+
+            <!-- Sort Options -->
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text font-semibold">Ordina per</span>
+              </label>
+              <select
+                id="ordinamento"
+                class="select select-bordered w-full"
+                onchange="cambiaCriterioOrdinamento()"
+              >
+                <option value="priorita">Priorità (default)</option>
+                <option value="scadenza">Data di Scadenza</option>
+                <option value="titolo">Titolo (A-Z)</option>
+                <option value="inserimento">Data di Inserimento</option>
+              </select>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Modal Description -->
+    <dialog id="modalDesc" class="modal">
+      <div class="modal-box">
+        <form method="dialog">
+          <button
+            class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          >
+            ✕
+          </button>
         </form>
+        <h3
+          class="font-bold text-2xl mb-4 text-primary"
+          id="modalDescTitle"
+        ></h3>
+        <div class="divider"></div>
+        <p id="modalDescContent" class="py-4 text-lg"></p>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>chiudi</button>
+      </form>
+    </dialog>
+
+    <!-- Modal Edit Due Date -->
+    <dialog id="modalScad" class="modal">
+      <div class="modal-box">
+        <form method="dialog">
+          <button
+            class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          >
+            ✕
+          </button>
+        </form>
+        <h3
+          class="font-bold text-2xl mb-4 text-primary"
+          id="modalScadTitle"
+        ></h3>
+        <div class="divider"></div>
+
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-semibold">Nuova Scadenza</span>
+          </label>
+          <button
+            popovertarget="cally-popover2"
+            class="btn btn-outline btn-primary w-full"
+            id="scadenzaInModal"
+            style="anchor-name: --scadenzaInModal"
+          >
+            Seleziona data
+          </button>
+          <div
+            popover
+            id="cally-popover2"
+            class="dropdown bg-base-100 rounded-box shadow-2xl p-4"
+            style="position-anchor: --scadenzaInModal"
+          >
+            <calendar-date
+              id="calendarioInModal"
+              class="cally"
+              onchange="document.getElementById('scadenzaInModal').innerText = this.value"
+            >
+              <svg
+                aria-label="Previous"
+                class="fill-current size-4"
+                slot="previous"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+              </svg>
+              <svg
+                aria-label="Next"
+                class="fill-current size-4"
+                slot="next"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+              </svg>
+              <calendar-month></calendar-month>
+            </calendar-date>
+          </div>
+        </div>
+
+        <div class="modal-action">
+          <button
+            id="salvaScadenzaBtn"
+            class="btn btn-primary"
+            onclick="modificaScadenza()"
+          >
+            Salva
+          </button>
+        </div>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>chiudi</button>
+      </form>
+    </dialog>
+
+    <!-- Modal Edit Priority -->
+    <dialog id="modalPrior" class="modal">
+      <div class="modal-box">
+        <form method="dialog">
+          <button
+            class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          >
+            ✕
+          </button>
+        </form>
+        <h3
+          class="font-bold text-2xl mb-4 text-primary"
+          id="modalPriorTitle"
+        ></h3>
+        <div class="divider"></div>
+
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-semibold">Nuova Priorità</span>
+          </label>
+          <select
+            class="select select-bordered select-primary w-full"
+            id="prioritaInModal"
+          >
+            <option disabled selected>Seleziona priorità</option>
+            <option value="0">Bassa</option>
+            <option value="1">Media</option>
+            <option value="2">Alta</option>
+            <option value="3">Urgente</option>
+          </select>
+        </div>
+
+        <div class="modal-action">
+          <button
+            id="salvaPrioritaBtn"
+            class="btn btn-primary"
+            onclick="modificaPriorita()"
+          >
+            Salva
+          </button>
+        </div>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>chiudi</button>
+      </form>
     </dialog>
 
     <script src="script.js"></script>
-</body>
-
+  </body>
 </html>
